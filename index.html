@@ -10,7 +10,7 @@
     />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body data-mode="work">
     <div class="app-container">
       <div class="mode-selector">
         <button class="mode-btn active" data-mode="work">Focus</button>
@@ -19,7 +19,23 @@
       </div>
 
       <div class="timer-section">
-        <div class="time-display" id="time-display">25:00</div>
+        <div class="current-task" id="current-task"></div>
+
+        <div
+          class="time-display"
+          id="time-display"
+          title="Click to edit minutes"
+        >
+          25:00
+        </div>
+        <input
+          type="number"
+          class="time-edit-input hidden"
+          id="time-edit-input"
+          min="1"
+          max="180"
+        />
+
         <div class="controls">
           <button class="control-btn" id="start-btn">Start</button>
           <button class="control-btn" id="reset-btn">Reset</button>

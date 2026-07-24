@@ -5,7 +5,19 @@
   --text-main: #ededed;
   --text-muted: #666666;
   --accent-hover: #1a1a1a;
+  --accent: #ededed;
   --danger: #ff4444;
+  --transition-fast: 0.2s ease;
+  --transition-med: 0.3s ease;
+}
+
+/* Per-mode accent theming, applied via data-mode on <body> */
+body[data-mode="shortBreak"] {
+  --accent: #8fd6b4;
+}
+
+body[data-mode="longBreak"] {
+  --accent: #93b8f5;
 }
 
 * {
@@ -23,6 +35,7 @@ body {
   align-items: center;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  transition: background-color var(--transition-med);
 }
 
 .app-container {
@@ -51,7 +64,9 @@ body {
   font-size: 0.85rem;
   font-family: "Inter", sans-serif;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition:
+    color var(--transition-med),
+    background-color var(--transition-med);
 }
 
 .mode-btn:hover {
@@ -62,12 +77,39 @@ body {
 .mode-btn.active {
   color: var(--text-main);
   font-weight: 500;
-  box-shadow: inset 0 -2px 0 var(--text-main);
+  box-shadow: inset 0 -2px 0 var(--accent);
+  transition:
+    color var(--transition-med),
+    box-shadow var(--transition-med);
+}
+
+.mode-btn:focus-visible,
+.control-btn:focus-visible,
+.task-input:focus-visible,
+.time-edit-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .timer-section {
   padding: 3rem 2rem;
   text-align: center;
+}
+
+.current-task {
+  min-height: 1.1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.current-task:empty::before {
+  content: "No task selected \2014 pin one below";
+  opacity: 0.6;
 }
 
 .time-display {
@@ -78,6 +120,41 @@ body {
   line-height: 1;
   margin-bottom: 2rem;
   color: var(--text-main);
+  cursor: pointer;
+  border-radius: 8px;
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.time-display:hover {
+  color: var(--accent);
+}
+
+.time-edit-input {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 5.5rem;
+  font-weight: 200;
+  letter-spacing: -3px;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 2rem;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.time-edit-input::-webkit-outer-spin-button,
+.time-edit-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .controls {
@@ -94,7 +171,9 @@ body {
   border-radius: 6px;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .control-btn:hover {
@@ -119,7 +198,7 @@ body {
   margin-bottom: 1rem;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.3s;
+  transition: border-color var(--transition-med);
 }
 
 .task-input:focus {
@@ -145,25 +224,79 @@ body {
   border-radius: 4px;
 }
 
+.task-empty {
+  padding: 1rem 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  font-weight: 300;
+}
+
 .task-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
   padding: 0.75rem 0;
   font-size: 0.9rem;
   font-weight: 300;
   border-bottom: 1px solid transparent;
+  transition: border-color var(--transition-fast);
 }
 
 .task-item:hover {
   border-bottom: 1px solid var(--border-subtle);
 }
 
+.task-item.is-active {
+  color: var(--accent);
+}
+
+.task-main {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.pin-btn {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.pin-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.pin-btn.is-active {
+  color: var(--bg-base);
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
 .task-text {
   cursor: pointer;
-  transition:
-    color 0.3s,
-    text-decoration 0.3s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--transition-med);
 }
 
 .task-text.completed {
@@ -172,21 +305,47 @@ body {
 }
 
 .delete-btn {
+  flex-shrink: 0;
   background: none;
   border: none;
   color: var(--text-muted);
   cursor: pointer;
   font-size: 1rem;
-  opacity: 0;
+  opacity: 0.35;
   transition:
-    opacity 0.2s,
-    color 0.2s;
+    opacity var(--transition-fast),
+    color var(--transition-fast);
 }
 
-.task-item:hover .delete-btn {
+.task-item:hover .delete-btn,
+.task-item:focus-within .delete-btn {
   opacity: 1;
 }
 
 .delete-btn:hover {
   color: var(--danger);
+}
+
+@media (max-width: 420px) {
+  .app-container {
+    max-width: 100%;
+    border-radius: 0;
+    min-height: 100vh;
+  }
+
+  .timer-section {
+    padding: 2rem 1.25rem;
+  }
+
+  .time-display,
+  .time-edit-input {
+    font-size: 3.75rem;
+    letter-spacing: -1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }
