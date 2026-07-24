@@ -41,7 +41,7 @@ function formatTime(seconds) {
 
 function updateDisplay() {
   display.textContent = formatTime(timeLeft);
-  document.title = `${formatTime(timeLeft)} - Noir Timer`;
+  document.title = `${formatTime(timeLeft)} - Pomodoro timer`;
 }
 
 function switchMode(mode) {
@@ -89,7 +89,7 @@ function resetTimer() {
 let tasks = JSON.parse(localStorage.getItem("noirTasks")) || [];
 
 function saveTasks() {
-  localStorage.setItem("noirTasks", JSON.stringify(tasks));
+  localStorage.setItem("pomodoroooo", JSON.stringify(tasks));
 }
 
 function renderTasks() {
