@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pompom</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@200;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="mode-selector">
+        <button class="mode-btn active" data-mode="work">Focus</button>
+        <button class="mode-btn" data-mode="shortBreak">Short Break</button>
+        <button class="mode-btn" data-mode="longBreak">Long Break</button>
+      </div>
+
+      <div class="timer-section">
+        <div class="time-display" id="time-display">25:00</div>
+        <div class="controls">
+          <button class="control-btn" id="start-btn">Start</button>
+          <button class="control-btn" id="reset-btn">Reset</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
