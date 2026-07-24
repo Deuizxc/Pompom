@@ -20,6 +20,7 @@ const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playAlert() {
   const oscillator = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
+  const duration = 30; // duration in seconds
   oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime);
   gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
