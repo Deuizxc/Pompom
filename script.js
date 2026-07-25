@@ -24,8 +24,11 @@ let timeLeft = MODES[currentMode];
 let timerInterval = null;
 let isRunning = false;
 
+const DIAL_CIRCUMFERENCE = 553;
+
 const body = document.body;
 const display = document.getElementById("time-display");
+const dialProgress = document.getElementById("dial-progress");
 const timeEditInput = document.getElementById("time-edit-input");
 const startBtn = document.getElementById("start-btn");
 const resetBtn = document.getElementById("reset-btn");
@@ -77,6 +80,14 @@ function formatTime(seconds) {
 function updateDisplay() {
   display.textContent = formatTime(timeLeft);
   document.title = `${formatTime(timeLeft)} - Pomodoro timer`;
+  updateDialProgress();
+}
+
+function updateDialProgress() {
+  const total = MODES[currentMode];
+  const progress = total > 0 ? (total - timeLeft) / total : 0;
+  const offset = DIAL_CIRCUMFERENCE * (1 - progress);
+  dialProgress.style.strokeDashoffset = offset;
 }
 
 function switchMode(mode) {
@@ -183,7 +194,19 @@ function saveActiveTask() {
 
 function renderCurrentTask() {
   const active = tasks.find((t) => t.id === activeTaskId);
-  currentTaskEl.textContent = active ? `Working on: ${active.text}` : "";
+  currentTaskEl.innerHTML = "";
+
+  if (!active) return;
+
+  const dot = document.createElement("span");
+  dot.className = "current-task-dot";
+
+  const text = document.createElement("span");
+  text.className = "current-task-text";
+  text.textContent = active.text;
+
+  currentTaskEl.appendChild(dot);
+  currentTaskEl.appendChild(text);
 }
 
 function renderTasks() {
