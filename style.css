@@ -167,7 +167,6 @@ body {
   font-weight: 300;
   text-align: center;
   outline: none;
-  -moz-appearance: textfield;
 }
 
 .time-edit-input::-webkit-outer-spin-button,
